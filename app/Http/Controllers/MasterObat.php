@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class MasterObat extends Controller
 {
@@ -14,15 +15,16 @@ class MasterObat extends Controller
      */
     public function index()
     {
+        $bangsal = DB::table('set_depo_ralan')->where('kd_poli', Session::get('kd_poli'))->first();
         $obat = DB::table('databarang')
-                    ->join('gudangbarang', 'gudangbarang.kode_brng', '=', 'databarang.kode_brng')
-                    ->where('status', '1')
-                    ->where('gudangbarang.stok', '>', 0)
-                    ->where('gudangbarang.kd_bangsal', 'DPF')
-                    ->select('gudangbarang.kode_brng', 'databarang.nama_brng', 'gudangbarang.stok')
-                    ->get();
+            ->join('gudangbarang', 'gudangbarang.kode_brng', '=', 'databarang.kode_brng')
+            ->where('status', '1')
+            ->where('gudangbarang.stok', '>', 0)
+            ->where('gudangbarang.kd_bangsal', $bangsal->kd_bangsal)
+            ->select('gudangbarang.kode_brng', 'databarang.nama_brng', 'gudangbarang.stok')
+            ->get();
         $heads = ['Kode', 'Nama', 'Stok'];
-        return view('master-obat', ['obat'=>$obat, 'heads'=>$heads]);
+        return view('master-obat', ['obat' => $obat, 'heads' => $heads]);
     }
 
     /**
