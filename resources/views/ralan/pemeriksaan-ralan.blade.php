@@ -96,8 +96,8 @@
             {{--
             <x-ralan.catatan :no-rawat="request()->get('no_rawat')" /> --}}
             <livewire:ralan.catatan :noRawat="request()->get('no_rawat')" :noRm="request()->get('no_rm')" />
-            {{--
-            <x-ralan.rujuk-internal :no-rawat="request()->get('no_rawat')" /> --}}
+
+            <x-ralan.rujuk-internal :no-rawat="request()->get('no_rawat')" />
             {{--
             <x-ralan.permintaan-lab :no-rawat="request()->get('no_rawat')" /> --}}
             <livewire:ralan.permintaan-lab :no-rawat="request()->get('no_rawat')" />
