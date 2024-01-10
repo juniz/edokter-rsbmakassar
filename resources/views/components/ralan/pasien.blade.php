@@ -1,7 +1,7 @@
 <div>
     <x-adminlte-profile-widget name="{{$data->nm_pasien ?? '-'}}" desc="{{$data->no_rkm_medis ?? '-'}}"
         theme="lightblue" layout-type="classic"
-        img="https://simrs.rsbhayangkaranganjuk.com/webapps/photopasien/{{$data->gambar ?? 'avatar.png'}}">
+        img="https://simrs.rsbhayangkaramakassar.com/webapps/photopasien/{{$data->gambar ?? 'avatar.png'}}">
         <x-adminlte-profile-row-item icon="fas fa-fw fa-book-medical" title="No Rawat"
             text="{{$data->no_rawat ?? '-'}}" />
         <x-adminlte-profile-row-item icon="fas fa-fw fa-id-card" title="No KTP" text="{{$data->no_ktp ?? '-'}}" />
@@ -137,7 +137,7 @@
             form_data.append('no_rawat', '{{$data->no_rawat}}');
             form_data.append('url', '{{url()->current()}}');
             $.ajax({
-                url: "https://simrs.rsbhayangkaranganjuk.com/webapps/edokterfile.php",
+                url: "https://simrs.rsbhayangkaramakassar.com/webapps/edokterfile.php",
                 type: "POST",
                 data: form_data,
                 contentType: false,
