@@ -10,9 +10,9 @@
     <div class="row">
         @foreach($berkas as $item)
         <div class="col-5 col-sm-3">
-            <a href="https://simrs.rsbhayangkaranganjuk.com/webapps/berkasrawat/{{ $item->lokasi_file }}"
+            <a href="https://webapps.rsbhayangkaranganjuk.com/apps/berkasrawat/{{ $item->lokasi_file }}"
                 data-toggle="lightbox" data-title="{{ $item->lokasi_file }}">
-                <img src="https://simrs.rsbhayangkaranganjuk.com/webapps/berkasrawat/{{ $item->lokasi_file }}"
+                <img src="https://webapps.rsbhayangkaranganjuk.com/apps/berkasrawat/{{ $item->lokasi_file }}"
                     class="img-thumbnail" alt="{{ $item->lokasi_file }}">
             </a>
         </div>

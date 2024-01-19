@@ -1,7 +1,7 @@
 <div>
     <x-adminlte-profile-widget name="{{$data->nm_pasien ?? '-'}}" desc="{{$data->no_rkm_medis ?? '-'}}"
         theme="lightblue" layout-type="classic"
-        img="https://simrs.rsbhayangkaramakassar.com/webapps/photopasien/{{$data->gambar ?? 'avatar.png'}}">
+        img="https://webapps.rsbhayangkaramakassar.com/apps/photopasien/{{$data->gambar ?? 'avatar.png'}}">
         <x-adminlte-profile-row-item icon="fas fa-fw fa-book-medical" title="No Rawat"
             text="{{$data->no_rawat ?? '-'}}" />
         <x-adminlte-profile-row-item icon="fas fa-fw fa-id-card" title="No KTP" text="{{$data->no_ktp ?? '-'}}" />
@@ -137,7 +137,7 @@
             form_data.append('no_rawat', '{{$data->no_rawat}}');
             form_data.append('url', '{{url()->current()}}');
             $.ajax({
-                url: "https://simrs.rsbhayangkaramakassar.com/webapps/edokterfile.php",
+                url: "https://webapps.rsbhayangkaramakassar.com/apps/edokterfile.php",
                 type: "POST",
                 data: form_data,
                 contentType: false,
@@ -233,7 +233,7 @@
                     if(data.status == 'success'){
                         let decode = decodeURIComponent(data.data.lokasi_pdf);
                         var html = '';
-                        html += '<iframe src="http://simrs.rsbhayangkaranganjuk.com/webapps/medrec/'+decode+'" frameborder="0" height="700px" width="100%"></iframe>';
+                        html += '<iframe src="http://webapps.rsbhayangkaramakassar.com/apps/medrec/'+decode+'" frameborder="0" height="700px" width="100%"></iframe>';
                         $('.container-retensi').html(html);
                         $('#modalBerkasRetensi').modal('show');
                     }else{
@@ -272,7 +272,7 @@
                         var html = '';
                         data.data.forEach(function(item){
                             let decoded = decodeURIComponent(item.lokasi_file);
-                            html += '<iframe src="https://simrs.rsbhayangkaranganjuk.com/webapps/berkasrawat/'+decoded+'" frameborder="0" height="700px" width="100%"></iframe>';
+                            html += '<iframe src="https://webapps.rsbhayangkaramakassar.com/apps/berkasrawat/'+decoded+'" frameborder="0" height="700px" width="100%"></iframe>';
                             
                         });
                         $('.body-modal-berkasrm').html(html);
