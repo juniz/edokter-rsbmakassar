@@ -512,7 +512,7 @@ return [
             ],
         ],
         'EkkoLightBox' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
