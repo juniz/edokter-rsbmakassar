@@ -183,9 +183,24 @@ Route::post('/diagnosa', [
     'simpanDiagnosa',
 ])->name('diagnosa.simpan');
 
-Route::get('/master-operasi', fn () => view('master-laporan-operasi'))->name(
+Route::get('/master-operasi', fn() => view('master-laporan-operasi'))->name(
     'master-operasi'
 )->middleware('loginauth');
+
+Route::get('/radiologi/ralan', [
+    App\Http\Controllers\RadiologiController::class,
+    'ralan',
+])->name('permintaan-radiologi-ralan')->middleware('loginauth');
+
+Route::get('/radiologi/ranap', [
+    App\Http\Controllers\RadiologiController::class,
+    'ranap',
+])->name('permintaan-radiologi-ranap')->middleware('loginauth');
+
+Route::get('/radiologi/pemeriksaan/{no_rawat}', [
+    App\Http\Controllers\RadiologiController::class,
+    'pemeriksaan',
+])->name('radiologi.pemeriksaan')->middleware('loginauth');
 
 Route::get('/offline', function () {
     return view('modules/laravelpwa/offline');
