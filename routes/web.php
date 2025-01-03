@@ -202,6 +202,19 @@ Route::get('/radiologi/pemeriksaan/{no_rawat}', [
     'pemeriksaan',
 ])->name('radiologi.pemeriksaan')->middleware('loginauth');
 
+Route::get('/konsultasi', function () {
+    return view('konsultasi.index');
+})->name('konsultasi')->middleware('loginauth');
+
+Route::get('/konsultasi/jawaban/{no_permintaan}', [App\Http\Controllers\KonsultasiMedikController::class, 'jawaban'])->name('konsultasi.jawaban')->middleware('loginauth');
+
+Route::post('/konsultasi/jawaban/{no_permintaan}', [App\Http\Controllers\KonsultasiMedikController::class, 'simpan'])->name('konsultasi.jawaban.simpan')->middleware('loginauth');
+
 Route::get('/offline', function () {
     return view('modules/laravelpwa/offline');
 });
+
+Route::get(
+    'notifications/get',
+    [App\Http\Controllers\NotificationController::class, 'getNotificationsData']
+)->name('notifications.get');
