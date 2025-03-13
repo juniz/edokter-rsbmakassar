@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('bpjs:finger')
             ->everyFiveMinutes()
-            ->between('07:00', '15:00')
+            ->between('07:00', '21:00')
             ->timezone('Asia/Jakarta')
             ->withoutOverlapping();
     }
