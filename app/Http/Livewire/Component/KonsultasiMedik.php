@@ -5,6 +5,10 @@ namespace App\Http\Livewire\Component;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use App\Models\Dokter;
+use App\Models\RegPeriksa;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Http;
 
 class KonsultasiMedik extends Component
 {
@@ -177,8 +181,9 @@ class KonsultasiMedik extends Component
         try {
 
             if (!$this->modeEdit) {
+                $no_permintaan = $this->generateNoPermintaan();
                 DB::table('konsultasi_medik')->insert([
-                    'no_permintaan' => $this->generateNoPermintaan(),
+                    'no_permintaan' => $no_permintaan,
                     'no_rawat' => $this->noRawat,
                     'tanggal' => $this->tanggal,
                     'jenis_permintaan' => $this->jenis_permintaan,
@@ -186,6 +191,39 @@ class KonsultasiMedik extends Component
                     'kd_dokter_dikonsuli' => $this->kd_dokter_dikonsuli,
                     'diagnosa_kerja' => $this->diagnosa_kerja,
                     'uraian_konsultasi' => $this->uraian_konsultasi
+                ]);
+                $dokter = Dokter::where('kd_dokter', session()->get('username'))->first();
+                $dokter_dikonsuli = Dokter::where('kd_dokter', $this->kd_dokter_dikonsuli)->first();
+                $reg = RegPeriksa::with('poliklinik')->where('no_rawat', $this->noRawat)->first();
+                $asalPasien = '';
+                if ($reg->status_lanjut == 'Ralan') {
+                    $asalPasien = "*Poliklinik:* " . $reg->poliklinik->nm_poli . "\n";
+                } else {
+                    $bangsal = \App\Models\KamarInap::with('kamar.bangsal')->where('no_rawat', $reg->no_rawat)->first();
+                    // $this->info($bangsal->kamar->bangsal->nm_bangsal);
+                    $asalPasien = "*Kamar:* " . $bangsal->kamar->bangsal->nm_bangsal . ' ' . $bangsal->kd_kamar . "\n";
+                }
+                $message =
+                    "*Konsultasi Medik* 👨‍⚕️\n\n" .
+                    "*Pasien:* " . $reg->pasien->nm_pasien . "\n" .
+                    "*No. RM:* " . $reg->pasien->no_rkm_medis . "\n" .
+                    $asalPasien .
+                    "*No. Permintaan:* " . $no_permintaan . "\n" .
+                    "*Jenis Permintaan:* " . $this->jenis_permintaan . "\n" .
+                    "*Tanggal:* " . $this->tanggal . "\n" .
+                    "*Dokter:* " . $dokter->nm_dokter . "\n\n" .
+                    "*Diagnosa Kerja:*\n" . $this->diagnosa_kerja . "\n\n" .
+                    "*Uraian Konsultasi:*\n" . $this->uraian_konsultasi . "\n\n" .
+                    "Silahkan klik link berikut untuk menjawab konsultasi: " . URL::temporarySignedRoute('temp-konsultasi', now()->addDay(1), ['no_permintaan' => $no_permintaan]) . "\n\n" .
+                    "*Link akan kadaluarsa dalam 24 jam*\n\n" .
+                    "*Pesan ini dikirim melalui aplikasi E-Dokter* 🚀" . "\n" .
+                    "*Jangan balas pesan ini* ❌";
+                @Http::withHeaders([
+                    'Authorization' => env('FONNTE_API_KEY'),
+                ])->post('https://api.fonnte.com/send', [
+                    'target' => $dokter_dikonsuli->no_telp,
+                    'message' => $message,
+                    'countryCode' => '62',
                 ]);
             } else {
                 DB::table('konsultasi_medik')
